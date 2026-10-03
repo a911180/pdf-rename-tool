@@ -32,6 +32,7 @@
 
 html,
 body {
+
     margin: 0;
     padding: 0;
 
@@ -73,7 +74,7 @@ body {
 
 
 /* ========================================
-   上方標題
+   標題
 ======================================== */
 
 h1 {
@@ -100,7 +101,7 @@ h1 {
 
 
 /* ========================================
-   三欄主區域
+   三欄
 ======================================== */
 
 .grid {
@@ -121,7 +122,7 @@ h1 {
 
 
 /* ========================================
-   三個面板
+   面板
 ======================================== */
 
 .panel {
@@ -265,7 +266,7 @@ button:disabled {
 
 
 /* ========================================
-   檢查 / 處理結果
+   結果
 ======================================== */
 
 .result {
@@ -297,8 +298,7 @@ button:disabled {
 
 
 /* ========================================
-   中間預覽區
-   只有這裡可以上下滑
+   中間預覽
 ======================================== */
 
 .preview-scroll {
@@ -350,7 +350,7 @@ th {
 
 
 /* ========================================
-   進度條
+   進度
 ======================================== */
 
 .progress-container {
@@ -397,7 +397,7 @@ th {
 
 
 /* ========================================
-   下載按鈕
+   下載
 ======================================== */
 
 .download-btn {
@@ -414,7 +414,7 @@ th {
 
 
 /* ========================================
-   手機 / 小螢幕
+   小螢幕
 ======================================== */
 
 @media (max-width: 1000px) {
@@ -459,6 +459,7 @@ th {
 
         flex: none;
     }
+
 }
 
 </style>
@@ -481,7 +482,9 @@ th {
     </h1>
 
     <div class="subtitle">
+
         PDF 與 TXT 都在你的瀏覽器本機處理，不會上傳到伺服器
+
     </div>
 
 
@@ -572,7 +575,7 @@ th {
 
 
         <!-- =================================
-             中間：檢查與預覽
+             中間：檢查
         ================================== -->
 
         <div class="panel">
@@ -601,17 +604,15 @@ th {
             </button>
 
 
-            <!-- 濃縮檢查結果 -->
-
             <div
                 id="checkResult"
                 class="result"
             >
+
                 尚未檢查
+
             </div>
 
-
-            <!-- 預覽 -->
 
             <div class="preview-scroll">
 
@@ -710,7 +711,9 @@ th {
                     class="progress-text"
                     id="progressText"
                 >
+
                     準備中...
+
                 </div>
 
             </div>
@@ -722,7 +725,9 @@ th {
                 id="processResult"
                 class="result"
             >
+
                 尚未執行
+
             </div>
 
 
@@ -1328,10 +1333,6 @@ document
                     `正在處理 ${i + 1} / ${pageCount} 頁`;
 
 
-                /*
-                   讓畫面更新
-                */
-
                 await new Promise(
                     resolve =>
                         setTimeout(
@@ -1365,8 +1366,29 @@ document
                 });
 
 
+            /*
+               ZIP 名稱：
+
+               原 PDF：
+               全部.pdf
+
+               ZIP：
+               全部_重新命名結果.zip
+            */
+
+            const originalPdfName =
+                pdfFile.name
+                .replace(
+                    /\.pdf$/i,
+                    ""
+                );
+
+
             finalZipName =
-                "PDF_重新命名結果.zip";
+                cleanFilename(
+                    originalPdfName
+                ) +
+                "_重新命名結果.zip";
 
 
             /* --------------------------
@@ -1405,9 +1427,11 @@ document
             .innerHTML =
 
                 `<span class="success">
+
                     ✅ 完成　
                     ${pageCount} 個 PDF　
                     ｜ ZIP ${formatBytes(finalZipBlob.size)}
+
                 </span>`;
 
 
@@ -1441,8 +1465,13 @@ document
             .innerHTML =
 
                 `<span class="error">
+
                     ❌ 處理失敗：<br>
-                    ${escapeHtml(error.message)}
+
+                    ${escapeHtml(
+                        error.message
+                    )}
+
                 </span>`;
 
 
@@ -1468,7 +1497,9 @@ document
 
 
         if (!finalZipBlob) {
+
             return;
+
         }
 
 
@@ -1484,13 +1515,17 @@ document
             );
 
 
-        a.href = url;
+        a.href =
+            url;
+
 
         a.download =
             finalZipName;
 
 
-        document.body.appendChild(a);
+        document.body.appendChild(
+            a
+        );
 
 
         a.click();
@@ -1742,7 +1777,9 @@ function showCheckError(
     .innerHTML =
 
         `<span class="error">
+
             ${escapeHtml(message)}
+
         </span>`;
 
 
